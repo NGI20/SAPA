@@ -1,0 +1,64 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String        @id @default(cuid())
+  name         String
+  institution  String?
+  email        String        @unique
+  phone        String?       @unique
+  passwordHash String
+  role         String        @default("PEMOHON")
+  submissions  Submission[]  @relation("ApplicantSubmissions")
+  activities   ActivityLog[] @relation("ActorActivities")
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+model Submission {
+  id             String        @id @default(cuid())
+  receiptCode    String        @unique
+  applicantId    String?
+  applicant      User?         @relation("ApplicantSubmissions", fields: [applicantId], references: [id])
+  applicantName  String
+  applicantEmail String
+  applicantPhone String
+  institution    String?
+  jobTitle       String?
+  address        String?
+  category       String
+  subject        String
+  documentUrl    String?
+  documentName   String?
+  status         String        @default("MENUNGGU_VERIFIKASI")
+  statusLogs     StatusLog[]
+  activities     ActivityLog[]
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+}
+
+model StatusLog {
+  id           String            @id @default(cuid())
+  submissionId String
+  submission   Submission        @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+  status       String
+  note         String?
+  createdAt    DateTime          @default(now())
+}
+
+model ActivityLog {
+  id           String      @id @default(cuid())
+  actorId      String?
+  actor        User?       @relation("ActorActivities", fields: [actorId], references: [id])
+  submissionId String?
+  submission   Submission? @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+  action       String
+  detail       String?
+  createdAt    DateTime    @default(now())
+}
