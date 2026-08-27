@@ -34,7 +34,8 @@ model Submission {
   subject        String
   documentUrl    String?
   documentName   String?
-  status         String        @default("MENUNGGU_VERIFIKASI")
+  status         String        @default("MENUNGGU")
+  catatanStaf    String?
   statusLogs     StatusLog[]
   activities     ActivityLog[]
   createdAt      DateTime      @default(now())

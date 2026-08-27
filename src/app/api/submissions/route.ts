@@ -62,7 +62,7 @@ export async function POST(request: Request) {
     data: {
       receiptCode, applicantId: user?.id, applicantName, applicantEmail, applicantPhone,
       institution: institution || null, category, subject, documentUrl: `/uploads/${storedName}`, documentName: file.name,
-      statusLogs: { create: { status: "MENUNGGU_VERIFIKASI", note: "Permohonan berhasil diterima dan menunggu verifikasi petugas BWS." } },
+      statusLogs: { create: { status: "MENUNGGU", note: "Permohonan berhasil diterima dan masuk antrean Staf." } },
       activities: { create: { actorId: user?.id, action: "SUBMISSION_CREATED", detail: `Permohonan ${receiptCode} dibuat.` } },
     },
   });

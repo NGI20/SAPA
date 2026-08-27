@@ -188,18 +188,23 @@ button, input, textarea, select { font: inherit; }
 /* ======== STATUS BADGES ======== */
 .status-badge { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; white-space: nowrap; }
 .status-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
-.status-badge.menunggu-verifikasi { background: #fffbeb; color: #92400e; border: 1px solid #fde68a; }
-.status-badge.menunggu-verifikasi .status-dot { background: #f59e0b; }
-.status-badge.diproses { background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe; }
-.status-badge.diproses .status-dot { background: #3b82f6; }
-.status-badge.disetujui, .status-badge.selesai { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
-.status-badge.disetujui .status-dot, .status-badge.selesai .status-dot { background: #22c55e; }
+
+.status-badge.menunggu, .status-badge.diteruskan { background: #fffbeb; color: #92400e; border: 1px solid #fde68a; }
+.status-badge.menunggu .status-dot, .status-badge.diteruskan .status-dot { background: #f59e0b; }
+
+.status-badge.perlu-revisi { background: #fff7ed; color: #c2410c; border: 1px solid #ffedd5; }
+.status-badge.perlu-revisi .status-dot { background: #f97316; }
+
+.status-badge.disetujui { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
+.status-badge.disetujui .status-dot { background: #22c55e; }
+
 .status-badge.ditolak { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
 .status-badge.ditolak .status-dot { background: #ef4444; }
+
 /* Old status class compat */
-.status.menunggu-verifikasi { background: #fffbeb; color: #92400e; }
-.status.diproses { background: #eff6ff; color: #1e40af; }
-.status.disetujui, .status.selesai { background: #f0fdf4; color: #166534; }
+.status.menunggu, .status.diteruskan { background: #f4b81a; border-radius: 10px; height: 30px; padding: 3px 10px; color: #ffffff; }
+.status.perlu-revisi { background: #fff7ed; color: #c2410c; }
+.status.disetujui { background: #f0fdf4; color: #166534; }
 .status.ditolak { background: #fef2f2; color: #991b1b; }
 
 /* ======== DASHBOARD ======== */
@@ -315,6 +320,25 @@ tr:hover td { background: #fafbfd; }
 .tl-item small { color: var(--muted); font-size: 13px; line-height: 1.5; display: block; margin-top: 2px; }
 .modal-actions { display: flex; gap: 12px; justify-content: flex-end; padding-top: 16px; border-top: 1px solid #f1f5f9; }
 
+/* Revision UI */
+.revisi-btn { background: #fff7ed !important; color: #c2410c !important; border-color: #ffedd5 !important; }
+.revisi-btn:hover { background: #ffedd5 !important; }
+.revise-box { display: flex; gap: 12px; padding: 16px; background: #fff7ed; border: 1px solid #fed7aa; border-radius: 12px; margin: 16px 0; color: #9a3412; font-size: 14px; line-height: 1.5; }
+.revise-box svg { flex-shrink: 0; margin-top: 2px; }
+.revise-box b { display: block; margin-bottom: 4px; font-size: 14px; }
+.revise-box p { margin: 0; font-size: 13px; }
+.revision-modal { max-width: 520px; }
+.revision-form { margin-top: 16px; }
+.revision-upload-area { margin-bottom: 16px; }
+.upload-label { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 32px 24px; border: 2px dashed #cbd5e1; border-radius: 14px; cursor: pointer; transition: .2s; text-align: center; background: #f8fafc; }
+.upload-label:hover { border-color: var(--blue); background: #f0f7fd; }
+.upload-label span { font-size: 14px; font-weight: 600; color: var(--ink); }
+.upload-label small { font-size: 12px; color: var(--muted); }
+.revision-success { text-align: center; padding: 24px 0; }
+.success-icon-sm { width: 56px; height: 56px; background: linear-gradient(135deg, #22c55e, #16a34a); border-radius: 50%; display: grid; place-items: center; margin: 0 auto 16px; }
+.revision-success h3 { font-size: 18px; margin: 0 0 8px; }
+.revision-success p { font-size: 14px; color: var(--muted); margin: 0; }
+
 /* Success Modal */
 .success-modal { background: #fff; border-radius: 20px; padding: 40px 36px; width: 100%; max-width: 460px; box-shadow: 0 20px 40px -12px rgba(0,0,0,.2); text-align: center; animation: slideUp .3s ease-out; }
 .success-icon { width: 72px; height: 72px; background: linear-gradient(135deg, #22c55e, #16a34a); border-radius: 50%; display: grid; place-items: center; margin: 0 auto 20px; }
@@ -322,7 +346,7 @@ tr:hover td { background: #fafbfd; }
 .success-modal > p { color: var(--muted); font-size: 14px; margin: 0; }
 .receipt-box { margin: 32px 0; padding: 32px 24px; background: #f8fafc; border-radius: 14px; border: 1px solid #e2e8f0; }
 .receipt-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
-.receipt-code-text { display: block; font-size: 24px; margin: 8px 0 14px; color: var(--blue); letter-spacing: 0.5px; }
+.receipt-code-text { display: block; font-size: 16px; margin: 8px 0 14px; color: var(--blue); letter-spacing: 0.5px; }
 .copy-btn { display: inline-flex; align-items: center; gap: 6px; background: var(--blue); color: #fff; border: none; padding: 8px 18px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; transition: .15s; }
 .copy-btn:hover { background: var(--deep); }
 .success-actions { display: flex; gap: 12px; margin: 8px 0 24px; justify-content: center; }

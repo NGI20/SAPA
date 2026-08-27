@@ -7,5 +7,5 @@ export async function GET(_: Request, { params }: { params: { receipt: string } 
     include: { statusLogs: { orderBy: { createdAt: "asc" } } },
   });
   if (!submission) return NextResponse.json({ error: "Permohonan tidak ditemukan." }, { status: 404 });
-  return NextResponse.json({ submission: { receiptCode: submission.receiptCode, applicantName: submission.applicantName, institution: submission.institution, category: submission.category, status: submission.status, createdAt: submission.createdAt, statusLogs: submission.statusLogs } });
+  return NextResponse.json({ submission: { receiptCode: submission.receiptCode, applicantName: submission.applicantName, institution: submission.institution, category: submission.category, status: submission.status, catatanStaf: submission.catatanStaf, createdAt: submission.createdAt, statusLogs: submission.statusLogs } });
 }

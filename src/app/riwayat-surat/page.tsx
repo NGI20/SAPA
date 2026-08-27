@@ -25,6 +25,7 @@ export default async function HistoryPage() {
 
   const submissions = rows.map((item) => ({
     ...item,
+    catatanStaf: item.catatanStaf || null,
     createdAt: item.createdAt.toISOString(),
     statusLogs: item.statusLogs.map((log) => ({
       ...log,
@@ -35,9 +36,9 @@ export default async function HistoryPage() {
   const counts = {
     "Total surat diajukan": rows.length,
     "Sedang diproses":
-      rows.filter((i) => i.status === "MENUNGGU_VERIFIKASI" || i.status === "DIPROSES").length,
-    "Disetujui / selesai":
-      rows.filter((i) => i.status === "DISETUJUI" || i.status === "SELESAI").length,
+      rows.filter((i) => ["MENUNGGU", "PERLU_REVISI", "DITERUSKAN"].includes(i.status)).length,
+    "Disetujui":
+      rows.filter((i) => i.status === "DISETUJUI").length,
     Ditolak: rows.filter((i) => i.status === "DITOLAK").length,
   };
 
@@ -56,15 +57,15 @@ export default async function HistoryPage() {
           {summaryMeta.map(([label, color, icon]) => (
             <article className={`summary ${color}`} key={label}>
               <div className="summary-head">
-                <span>{label}</span>
+                <span>{label === "Disetujui / selesai" ? "Disetujui" : label}</span>
                 <span className="summary-icon">{icon}</span>
               </div>
-              <b>{counts[label]}</b>
+              <b>{counts[label === "Disetujui / selesai" ? "Disetujui" : label as keyof typeof counts]}</b>
               <small>
                 {label === "Total surat diajukan" && "Semua pengajuan"}
-                {label === "Sedang diproses" && "Menunggu verifikasi"}
+                {label === "Sedang diproses" && "Menunggu / Revisi"}
                 {label === "Disetujui / selesai" && "Proses selesai"}
-                {label === "Ditolak" && "Perlu perbaikan"}
+                {label === "Ditolak" && "Ditolak permanen"}
               </small>
             </article>
           ))}
