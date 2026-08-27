@@ -30,8 +30,6 @@ model Submission {
   applicantEmail String
   applicantPhone String
   institution    String?
-  jobTitle       String?
-  address        String?
   category       String
   subject        String
   documentUrl    String?
