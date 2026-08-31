@@ -1,6 +1,6 @@
 <div align="center">
   <div style="background: #f5b821; width: 64px; height: 64px; border-radius: 20px 4px 20px 4px; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 12px;">
-    <span style="color: #024059; font-size: 40px; font-family: Georgia, serif; font-weight: 900;">S</span>
+    <span style="color: #024059; font-size: 40px; font-family: Georgia, serif; font-weight: 900;"></span>
   </div>
   <h1> SAPA</h1>
   <p><b>Sistem Administrasi Permohonan Antar Instansi E-Government</b></p>
