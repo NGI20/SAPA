@@ -55,3 +55,24 @@ export async function submitRevision(formData: FormData) {
 
   revalidatePath("/riwayat-surat");
 }
+
+export async function deleteSubmission(receiptCode: string) {
+  const user = await getCurrentUser();
+  if (!user) throw new Error("Unauthorized");
+
+  const submission = await prisma.submission.findUnique({ where: { receiptCode } });
+  if (!submission || submission.applicantId !== user.id) throw new Error("Akses ditolak.");
+  
+  if (submission.status !== "MENUNGGU") {
+    throw new Error("Hanya permohonan dengan status Menunggu yang dapat dihapus.");
+  }
+
+  // Delete all related records first
+  await prisma.statusLog.deleteMany({ where: { submissionId: submission.id } });
+  await prisma.activityLog.deleteMany({ where: { submissionId: submission.id } });
+  
+  // Then delete the submission
+  await prisma.submission.delete({ where: { id: submission.id } });
+
+  revalidatePath("/riwayat-surat");
+}

@@ -1,3 +1,15 @@
 import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth";
-export async function GET() { const user = await getCurrentUser(); return NextResponse.json({ user: user ? { name: user.name, email: user.email } : null }); }
+export async function GET() { 
+  const user = await getCurrentUser(); 
+  return NextResponse.json({ 
+    user: user ? { 
+      id: user.id,
+      name: user.name, 
+      email: user.email,
+      phone: user.phone || "",
+      institution: user.institution || "",
+      role: user.role
+    } : null 
+  }); 
+}

@@ -15,24 +15,39 @@ export async function POST(request: Request) {
   const institution = String(formData.get("institution") || "").trim();
   const category = String(formData.get("category") || "").trim();
   const subject = String(formData.get("subject") || "").trim();
-  const file = formData.get("file");
+  const files = formData.getAll("files");
 
   if (!applicantName || !applicantEmail || !applicantPhone || !category || !subject) 
     return NextResponse.json({ error: "Lengkapi seluruh data wajib." }, { status: 400 });
   if (!/^\S+@\S+\.\S+$/.test(applicantEmail)) 
     return NextResponse.json({ error: "Format email belum valid." }, { status: 400 });
-  if (!(file instanceof File) || file.size === 0) 
+  if (!files || files.length === 0) 
     return NextResponse.json({ error: "Dokumen PDF wajib diunggah." }, { status: 400 });
-  if (file.type !== "application/pdf" || !file.name.toLowerCase().endsWith(".pdf")) 
-    return NextResponse.json({ error: "Dokumen harus berformat PDF." }, { status: 400 });
-  if (file.size > 5 * 1024 * 1024) 
-    return NextResponse.json({ error: "Ukuran dokumen maksimal 5 MB." }, { status: 400 });
+
+  let totalSize = 0;
+  for (const f of files) {
+    if (!(f instanceof File) || f.size === 0) return NextResponse.json({ error: "File tidak valid." }, { status: 400 });
+    if (f.type !== "application/pdf" || !f.name.toLowerCase().endsWith(".pdf")) return NextResponse.json({ error: "Semua dokumen harus berformat PDF." }, { status: 400 });
+    totalSize += f.size;
+  }
+  
+  if (totalSize > 10 * 1024 * 1024) 
+    return NextResponse.json({ error: "Total ukuran dokumen maksimal 10 MB." }, { status: 400 });
 
   const user = await getCurrentUser();
   const directory = path.join(process.cwd(), "public", "uploads");
   await mkdir(directory, { recursive: true });
-  const storedName = `${randomUUID()}.pdf`;
-  await writeFile(path.join(directory, storedName), Buffer.from(await file.arrayBuffer()));
+  
+  const savedUrls = [];
+  const originalNames = [];
+
+  for (const f of files) {
+    const file = f as File;
+    const storedName = `${randomUUID()}.pdf`;
+    await writeFile(path.join(directory, storedName), Buffer.from(await file.arrayBuffer()));
+    savedUrls.push(`/uploads/${storedName}`);
+    originalNames.push(file.name);
+  }
 
   const year = new Date().getFullYear().toString();
   const randomCode = Math.random().toString(36).substring(2, 6).toUpperCase();
@@ -61,7 +76,9 @@ export async function POST(request: Request) {
   const submission = await prisma.submission.create({
     data: {
       receiptCode, applicantId: user?.id, applicantName, applicantEmail, applicantPhone,
-      institution: institution || null, category, subject, documentUrl: `/uploads/${storedName}`, documentName: file.name,
+      institution: institution || null, category, subject, 
+      documentUrl: JSON.stringify(savedUrls), 
+      documentName: JSON.stringify(originalNames),
       statusLogs: { create: { status: "MENUNGGU", note: "Permohonan berhasil diterima dan masuk antrean Staf." } },
       activities: { create: { actorId: user?.id, action: "SUBMISSION_CREATED", detail: `Permohonan ${receiptCode} dibuat.` } },
     },
