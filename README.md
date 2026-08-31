@@ -1,6 +1,6 @@
 <div align="center">
   <div style="background: #f5b821; width: 64px; height: 64px; border-radius: 20px 4px 20px 4px; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 12px;">
-    <span style="color: #024059; font-size: 40px; font-family: Georgia, serif; font-weight: 900;"></span>
+    <span style="color: #024059; font-size: 40px; font-family: Georgia, serif; font-weight: 900;">S</span>
   </div>
   <h1> SAPA</h1>
   <p><b>Sistem Administrasi Permohonan Antar Instansi E-Government</b></p>
@@ -74,3 +74,51 @@ Ikuti langkah-langkah di bawah ini untuk menjalankan SAPA di *local machine* And
 ```bash
 git clone https://github.com/KadekRama/SAPA.git
 cd SAPA
+```
+
+### 2. Instalasi Dependensi
+Pastikan Anda memiliki [Node.js](https://nodejs.org/) terinstal, kemudian jalankan:
+```bash
+npm install
+```
+
+### 3. Konfigurasi Environment (Database)
+Buat file `.env` di folder *root* dan masukkan koneksi string database MySQL Anda (sesuaikan kredensial lokal):
+```env
+DATABASE_URL="mysql://root:@localhost:3306/db_sapa"
+```
+
+### 4. Setup Prisma Database
+Lakukan sinkronisasi skema database dan *generate* klien Prisma:
+```bash
+npx prisma db push
+npx prisma generate
+```
+
+### 5. Jalankan Development Server
+```bash
+npm run dev
+```
+Buka [http://localhost:3000](http://localhost:3000) pada browser Anda.
+
+---
+
+## 🔄 Alur Kerja Utama (Workflow)
+
+```mermaid
+graph TD
+    A[Pengguna Publik Ajukan Surat] --> B(Staf TU: Verifikasi Administrasi)
+    B -->|Terindikasi SPAM| C[Selesai - Ditolak]
+    B -->|Dokumen Kurang| D[Dikembalikan ke Publik untuk Revisi]
+    D --> A
+    B -->|Valid & Lengkap| E(Admin: Pemeriksaan Substansi)
+    E -->|Disetujui| F[Surat Resmi Diterima & Diproses BWS]
+    E -->|Ditolak| G[Selesai - Ditolak dengan Alasan]
+```
+
+---
+
+<div align="center">
+<i>Sistem ini dibangun untuk memenuhi keperluan laporan Kuliah Praktek (KP).</i><br/>
+<b>Institut Teknologi dan Bisnis (ITB) STIKOM Bali, 2026.</b>
+</div>
