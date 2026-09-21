@@ -14,7 +14,7 @@ export default async function PortalPage() {
   // Ambil semua data untuk Dashboard/Portal
   const submissionsData = await prisma.submission.findMany({
     include: {
-      applicant: { select: { id: true, name: true, email: true } },
+      applicant: { select: { id: true, name: true, email: true, phone: true, institution: true } },
       statusLogs: { orderBy: { createdAt: "asc" } }
     },
     orderBy: { createdAt: "desc" },
@@ -22,7 +22,7 @@ export default async function PortalPage() {
 
   const usersData = await prisma.user.findMany({
     orderBy: { createdAt: "desc" },
-    select: { id: true, name: true, email: true, role: true, phone: true, isBlocked: true }
+    select: { id: true, name: true, email: true, role: true, phone: true, isBlocked: true, nip: true, institution: true, avatarUrl: true }
   });
 
   const activitiesData = await prisma.activityLog.findMany({
@@ -48,12 +48,26 @@ export default async function PortalPage() {
 
   const users = usersData.map(u => ({
     ...u,
-    status: "Aktif" // Dummy since we don't have isBlocked yet in DB
+    phone: u.phone || "",
+    nip: u.nip || "",
+    institution: u.institution || "",
+    avatarUrl: u.avatarUrl || "",
+    status: u.isBlocked ? "Diblokir" : "Aktif"
   }));
 
   return (
     <PortalClient 
-      currentUser={{ id: user.id, name: user.name, email: user.email, role: user.role, isBlocked: user.isBlocked }}
+      currentUser={{ 
+        id: user.id, 
+        name: user.name, 
+        email: user.email, 
+        role: user.role, 
+        isBlocked: user.isBlocked,
+        phone: user.phone || "",
+        institution: user.institution || "",
+        nip: user.nip || "",
+        avatarUrl: user.avatarUrl || ""
+      }}
       initialSubmissions={submissions}
       initialUsers={users}
       initialActivities={activities}

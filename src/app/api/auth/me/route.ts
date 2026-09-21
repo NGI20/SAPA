@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth";
+
 export async function GET() { 
   const user = await getCurrentUser(); 
   return NextResponse.json({ 
@@ -9,7 +10,10 @@ export async function GET() {
       email: user.email,
       phone: user.phone || "",
       institution: user.institution || "",
-      role: user.role
+      nip: user.nip || "",
+      avatarUrl: user.avatarUrl || "",
+      role: user.role,
+      isBlocked: user.isBlocked
     } : null 
   }); 
 }

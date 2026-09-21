@@ -13,6 +13,8 @@ model User {
   institution  String?
   email        String        @unique
   phone        String?       @unique
+  nip          String?
+  avatarUrl    String?
   passwordHash String
   role         String        @default("PEMOHON")
   isBlocked    Boolean       @default(false)
@@ -23,24 +25,28 @@ model User {
 }
 
 model Submission {
-  id             String        @id @default(cuid())
-  receiptCode    String        @unique
-  applicantId    String?
-  applicant      User?         @relation("ApplicantSubmissions", fields: [applicantId], references: [id])
-  applicantName  String
-  applicantEmail String
-  applicantPhone String
-  institution    String?
-  category       String
-  subject        String
-  documentUrl    String?
-  documentName   String?
-  status         String        @default("MENUNGGU")
-  catatanStaf    String?
-  statusLogs     StatusLog[]
-  activities     ActivityLog[]
-  createdAt      DateTime      @default(now())
-  updatedAt      DateTime      @updatedAt
+  id              String        @id @default(cuid())
+  receiptCode     String        @unique
+  applicantId     String?
+  applicant       User?         @relation("ApplicantSubmissions", fields: [applicantId], references: [id])
+  applicantName   String
+  applicantEmail  String
+  applicantPhone  String
+  institution     String?
+  category        String
+  subject         String
+  documentUrl     String?
+  documentName    String?
+  responseDocUrl  String?
+  responseDocName String?
+  responseNomor   String?
+  internalNote    String?
+  status          String        @default("MENUNGGU")
+  catatanStaf     String?
+  statusLogs      StatusLog[]
+  activities      ActivityLog[]
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
 }
 
 model StatusLog {

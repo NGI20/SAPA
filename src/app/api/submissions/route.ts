@@ -38,12 +38,12 @@ export async function POST(request: Request) {
   const directory = path.join(process.cwd(), "public", "uploads");
   await mkdir(directory, { recursive: true });
   
-  const savedUrls = [];
-  const originalNames = [];
+  const savedUrls: string[] = [];
+  const originalNames: string[] = [];
 
   for (const f of files) {
     const file = f as File;
-    const storedName = `${randomUUID()}.pdf`;
+    const storedName = `${Date.now()}-${randomUUID().slice(0, 8)}.pdf`;
     await writeFile(path.join(directory, storedName), Buffer.from(await file.arrayBuffer()));
     savedUrls.push(`/uploads/${storedName}`);
     originalNames.push(file.name);
@@ -75,10 +75,16 @@ export async function POST(request: Request) {
 
   const submission = await prisma.submission.create({
     data: {
-      receiptCode, applicantId: user?.id, applicantName, applicantEmail, applicantPhone,
-      institution: institution || null, category, subject, 
-      documentUrl: JSON.stringify(savedUrls), 
-      documentName: JSON.stringify(originalNames),
+      receiptCode, 
+      applicantId: user?.id, 
+      applicantName, 
+      applicantEmail, 
+      applicantPhone,
+      institution: institution || null, 
+      category, 
+      subject, 
+      documentUrl: savedUrls.length === 1 ? savedUrls[0] : JSON.stringify(savedUrls), 
+      documentName: originalNames.length === 1 ? originalNames[0] : originalNames.join(", "),
       statusLogs: { create: { status: "MENUNGGU", note: "Permohonan berhasil diterima dan masuk antrean Staf." } },
       activities: { create: { actorId: user?.id, action: "SUBMISSION_CREATED", detail: `Permohonan ${receiptCode} dibuat.` } },
     },

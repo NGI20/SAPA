@@ -11,6 +11,7 @@ function LoginForm() {
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -22,7 +23,7 @@ function LoginForm() {
       const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ identifier, password }),
+        body: JSON.stringify({ identifier, password, remember: rememberMe }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -81,12 +82,22 @@ function LoginForm() {
         </div>
       </div>
       {error && <p className="form-note error-note">{error}</p>}
-      <div className="auth-options">
-        <label>
-          <input type="checkbox" /> Ingat saya
+      
+      <div className="auth-options" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', margin: '14px 0' }}>
+        <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontSize: '14px', color: '#ffffff', fontWeight: 500 }}>
+          <input 
+            type="checkbox" 
+            checked={rememberMe}
+            onChange={(e) => setRememberMe(e.target.checked)}
+            style={{ width: '18px', height: '18px', accentColor: '#f4b81a', cursor: 'pointer', borderRadius: '4px' }}
+          />
+          Ingat saya
         </label>
-        <Link href="/lupa-password">Lupa kata sandi?</Link>
+        <Link href="/lupa-password" style={{ color: '#ffffff', fontSize: '14px', textDecoration: 'underline', opacity: 0.9 }}>
+          Lupa kata sandi?
+        </Link>
       </div>
+
       <button className="button button-gold wide" disabled={loading} type="submit">
         {loading ? "Memproses..." : "Masuk"}
       </button>
