@@ -14,17 +14,17 @@
 
 <br/>
 
-## 📖 Tentang SAPA
+## Tentang SAPA
 **SAPA** adalah aplikasi E-Government yang dirancang untuk memfasilitasi pelayanan administrasi surat atau permohonan eksternal dari masyarakat, desa adat, dan instansi lain kepada Balai Wilayah Sungai (BWS) Bali Penida.
 
 Sistem ini mendigitalisasi proses pengajuan dokumen sehingga menjadi jauh lebih terstruktur, transparan, dan mudah dilacak. Dilengkapi dengan **Sistem Verifikasi Berlapis**, portal pelacakan resi, hingga **Role-Based Access Control (RBAC)** untuk memastikan surat diproses oleh pihak yang berwenang.
 
 ---
 
-## ✨ Fitur Unggulan
+## Fitur Unggulan
 
 <details>
-<summary><b>🚪 1. Portal Publik & Lacak Resi</b> (Klik untuk detail)</summary>
+<summary><b>1. Portal Publik & Lacak Resi</b> (Klik untuk detail)</summary>
 
 Sistem memisahkan akses untuk masyarakat umum (Pemohon) dan staf internal.
 - Pemohon dapat mendaftar akun, melengkapi profil instansi, dan mengajukan surat beserta dokumen lampiran PDF.
@@ -32,7 +32,7 @@ Sistem memisahkan akses untuk masyarakat umum (Pemohon) dan staf internal.
 </details>
 
 <details>
-<summary><b>🛡️ 2. Role-Based Access Control (RBAC)</b> (Klik untuk detail)</summary>
+<summary><b>2. Role-Based Access Control (RBAC)</b> (Klik untuk detail)</summary>
 
 Memiliki hierarki peran pengguna yang sangat ketat:
 - **Pengguna Publik:** Hanya bisa mengajukan surat, melacak status, dan mengunggah revisi dokumen.
@@ -41,14 +41,14 @@ Memiliki hierarki peran pengguna yang sangat ketat:
 </details>
 
 <details>
-<summary><b>📝 3. Sistem Revisi & Catatan Penolakan</b> (Klik untuk detail)</summary>
+<summary><b>3. Sistem Revisi & Catatan Penolakan</b> (Klik untuk detail)</summary>
 
 - Jika ada lampiran yang kurang jelas, Staf TU dapat mengubah status menjadi **PERLU REVISI** disertai catatan. Pemohon akan mendapat notifikasi untuk mengunggah ulang dokumen.
 - Jika Admin atau Staf menolak surat, sistem mewajibkan mereka memberikan **Alasan Penolakan** agar proses birokrasi bersifat transparan bagi masyarakat.
 </details>
 
 <details>
-<summary><b>📊 4. Laporan, Analytics & Log Audit</b> (Klik untuk detail)</summary>
+<summary><b>4. Laporan, Analytics & Log Audit</b> (Klik untuk detail)</summary>
 
 - **Laporan Analitik:** Dashboard admin dilengkapi ringkasan visual statistik permohonan (Masuk, Disetujui, Ditolak) menggunakan grafik interaktif yang dapat di-*export* ke dokumen **PDF** atau **Excel**.
 - **Log Aktivitas:** Segala bentuk perubahan status dokumen, pengubahan profil pengguna, maupun pemblokiran akun akan terekam secara persisten untuk keperluan audit instansi.
@@ -56,7 +56,7 @@ Memiliki hierarki peran pengguna yang sangat ketat:
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 * **Frontend:** Next.js 14 (App Router), React 18, Tailwind CSS.
 * **UI/UX & Chart:** `lucide-react`, Recharts, `jspdf`, `xlsx`.
 * **Backend:** Serverless API Routes Next.js, Prisma ORM.
@@ -66,7 +66,7 @@ Memiliki hierarki peran pengguna yang sangat ketat:
 
 ---
 
-## 🚀 Panduan Instalasi (Getting Started)
+## Panduan Instalasi (Getting Started)
 
 Ikuti langkah-langkah di bawah ini untuk menjalankan SAPA di *local machine* Anda:
 
@@ -103,7 +103,7 @@ Buka [http://localhost:3000](http://localhost:3000) pada browser Anda.
 
 ---
 
-## 🔄 Alur Kerja Utama (Workflow)
+## Alur Kerja Utama (Workflow)
 
 ```mermaid
 graph TD
